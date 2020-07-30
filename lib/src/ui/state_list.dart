@@ -1,52 +1,13 @@
+import 'package:coviddashboard/src/models/jsonClass.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:coviddashboard/src/ui/models/jsonClass.dart';
 import 'dart:convert';
-
-var activeCasesAn;
-var recoveredCasesAn;
-var testedCasesAn;
-var activeCasesAp;
-var recoveredCasesAp;
-var testedCasesAp;
-var activeCasesAr;
-var recoveredCasesAr;
-var testedCasesAr;
-var activeCasesAs;
-var recoveredCasesAs;
-var testedCasesAs;
-var activeCasesBi;
-var recoveredCasesBi;
-var testedCasesBi;
+Json json=Json();
 class StateList extends StatelessWidget{
-  void getData() async{
-    http.Response response=await http.get('https://api.covid19india.org/v4/data.json?api_key=%E2%80%9C3ad5ab2eaf05830044bfabbd1690e1dfe3124de7%E2%80%9D');
-    if(response.statusCode==200){
-      String data = response.body;
-       activeCasesAn=jsonDecode(data)['AN']['total']['confirmed'];//active cases of andaman
-       recoveredCasesAn=jsonDecode(data)['AN']['total']['recovered'];//recovered cases of andaman
-       testedCasesAn=jsonDecode(data)['AN']['total']['tested'];//tested cases of andaman
-      activeCasesAp=jsonDecode(data)['AP']['total']['confirmed'];//active cases of Andhra Pradesh
-      recoveredCasesAp=jsonDecode(data)['AP']['total']['recovered'];//recovered cases of Andhra Pradesh
-      testedCasesAp=jsonDecode(data)['AP']['total']['tested'];//tested cases of Andhra Pradesh
-      activeCasesAr=jsonDecode(data)['AR']['total']['confirmed'];//active cases of Arunachal pradesh
-      recoveredCasesAr=jsonDecode(data)['AR']['total']['recovered'];//recovered cases of Arunachal Pradesh
-      testedCasesAr=jsonDecode(data)['AR']['total']['tested'];//tested cases of Arunachal Pradesh
-      activeCasesAs=jsonDecode(data)['AS']['total']['confirmed'];//active cases of Assam
-      recoveredCasesAs=jsonDecode(data)['AS']['total']['recovered'];//recovered cases of Assam
-      testedCasesAs=jsonDecode(data)['AS']['total']['tested'];//tested cases of Assam
-      activeCasesBi=jsonDecode(data)['BR']['total']['confirmed'];//active cases of Bihar
-      recoveredCasesBi=jsonDecode(data)['BR']['total']['recovered'];//recovered cases of Bihar
-      testedCasesBi=jsonDecode(data)['BR']['total']['tested'];//tested cases of Bihar
-    }
-    else{
-      print(response.statusCode);
-    }
-  }
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    getData();
     return Scaffold(
        appBar: AppBar(
          centerTitle: true,
@@ -59,26 +20,21 @@ class StateList extends StatelessWidget{
         height: double.infinity,
         child: ListView(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top:28.0,left: 8,right: 8),
-              child: DetailCards(state:"Andaman",activeCases: activeCasesAn.toString(),recoveredCases: recoveredCasesAn.toString(),testedCases: testedCasesAn.toString(),),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top:28.0,left: 8,right: 8),
-              child: DetailCards(state:"Andhra Pradesh",activeCases: activeCasesAp.toString(),recoveredCases: recoveredCasesAp.toString(),testedCases: testedCasesAp.toString(),),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top:28.0,left: 8,right: 8),
-              child: DetailCards(state:"Arunachal Pradesh",activeCases: activeCasesAr.toString(),recoveredCases: recoveredCasesAr.toString(),testedCases: testedCasesAr.toString(),),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top:28.0,left: 8,right: 8),
-              child: DetailCards(state:"Assam",activeCases: activeCasesAs.toString(),recoveredCases: recoveredCasesAs.toString(),testedCases: testedCasesAs.toString(),),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top:28.0,left: 8,right: 8),
-              child: DetailCards(state:"Bihar",activeCases: activeCasesBi.toString(),recoveredCases: recoveredCasesBi.toString(),testedCases: testedCasesBi.toString(),),
-            ),
+            for(int i=0;i<36;i++)
+              Padding (
+                padding: const EdgeInsets.only(top: 28.0, left: 8, right: 8),
+                child: DetailCards (state: "Andaman",
+                  activeCases: json.getActiveCases (0).toString (),
+                  recoveredCases: json.getRecoveredCases (0).toString (),
+                  testedCases: json.getTestedCases (0).toString (),),
+              ),
+              Padding (
+                padding: const EdgeInsets.only(top: 28.0, left: 8, right: 8),
+                child: DetailCards (state: "Andhra Pradesh",
+                  activeCases: json.getActiveCases (1).toString (),
+                  recoveredCases: json.getRecoveredCases (1).toString (),
+                  testedCases: json.getTestedCases (1).toString (),),
+              ),
           ],
         ),
       ),
