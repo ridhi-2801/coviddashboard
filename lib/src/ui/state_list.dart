@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 class StateList extends StatefulWidget {
@@ -7,8 +8,12 @@ class StateList extends StatefulWidget {
 }
 
 class _StateListState extends State<StateList> {
-  List<String> state=["AN","AP","AR","AS"];
-  List<String> stateName=["Andaman","Andhra Pradesh","Arunachal Pradesh","Assam"];
+  List<String> state=["AN","AP","AR","AS","BR","CH","CT","DL","DN","GA","GJ","HP","HR","JH","JK","KA","KL","LA","MH","ML","MN","MP","MZ","NL","OR","PB","PY","RJ","SK","TG",
+  "TN","TR","TT","UP","UT","WB"];
+  List<String> stateName=["Andaman And Nicobar Islands","Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chandigarh","Chhattisgarh","Delhi","Dadra and Nagar Haveli","Goa",
+    "Gujarat","Himachal Pradesh","Harayana","Jharkhand","Jamu And Kashmir","Karnataka","Kerela","Lakshadweep","Maharashtra","Meghalaya","Manipur","Madhya Pradesh","Mizoram","Nagaland","Orissa",
+    "Punjab","Puducherry","Rajasthan","Sikkim","Telangana","Tamil Nadu","Tripura","TT","Uttar Pradesh","Uttarakhand","West Bengal"
+  ];
   Future future;
   var coronaData;
   Future getData() async {
@@ -30,6 +35,8 @@ class _StateListState extends State<StateList> {
 
   @override
   Widget build(BuildContext context) {
+    print(state.length);
+    print(stateName.length);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -52,7 +59,7 @@ class _StateListState extends State<StateList> {
                   itemBuilder: (context, index){
                     return Padding(
                       padding:
-                      const EdgeInsets.only(top: 28.0, left: 8, right: 8),
+                      const EdgeInsets.only(top: 20.0, left: 8, right: 8,bottom: 20),
                       child: DetailCards(
                         state: stateName[index],
                         activeCases: coronaData[state[index]]['total']['confirmed'].toString(),
@@ -61,7 +68,8 @@ class _StateListState extends State<StateList> {
                         testedCases: coronaData[state[index]]['total']['tested'].toString(),
                       ),
                     );
-                  }
+                  },
+                itemCount: 36,
                   ),
             );
           }),
